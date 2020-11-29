@@ -7,7 +7,7 @@ const TutorialsList = () => {
   const [tutorials, setTutorials] = useState([]);
   const [currentTutorial, setCurrentTutorial] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(-1);
-  const [searchTitle, setSearchTitle] = useState("");
+  const [searchNombre, setSearchNombre] = useState("");
 
   const [page, setPage] = useState(1);
   const [count, setCount] = useState(0);
@@ -15,16 +15,16 @@ const TutorialsList = () => {
 
   const pageSizes = [3, 6, 9];
 
-  const onChangeSearchTitle = (e) => {
-    const searchTitle = e.target.value;
-    setSearchTitle(searchTitle);
+  const onChangeSearchNombre = (e) => {
+    const searchNombre = e.target.value;
+    setSearchNombre(searchNombre);
   };
 
-  const getRequestParams = (searchTitle, page, pageSize) => {
+  const getRequestParams = (searchNombre, page, pageSize) => {
     let params = {};
 
-    if (searchTitle) {
-      params["title"] = searchTitle;
+    if (searchNombre) {
+      params["nombre"] = searchNombre;
     }
 
     if (page) {
@@ -39,7 +39,7 @@ const TutorialsList = () => {
   };
 
   const retrieveTutorials = () => {
-    const params = getRequestParams(searchTitle, page, pageSize);
+    const params = getRequestParams(searchNombre, page, pageSize);
 
     TutorialDataService.getAll(params)
       .then((response) => {
@@ -95,9 +95,9 @@ const TutorialsList = () => {
           <input
             type="text"
             className="form-control"
-            placeholder="Search by title"
-            value={searchTitle}
-            onChange={onChangeSearchTitle}
+            placeholder="Search by nombre"
+            value={searchNombre}
+            onChange={onChangeSearchNombre}
           />
           <div className="input-group-append">
             <button
@@ -145,7 +145,7 @@ const TutorialsList = () => {
                 onClick={() => setActiveTutorial(tutorial, index)}
                 key={index}
               >
-                {tutorial.title}
+                {tutorial.nombre}
               </li>
             ))}
         </ul>
@@ -163,25 +163,25 @@ const TutorialsList = () => {
             <h4>Tutorial</h4>
             <div>
               <label>
-                <strong>Title:</strong>
+                <strong>Nombre:</strong>
               </label>{" "}
-              {currentTutorial.title}
+              {currentTutorial.nombre}
             </div>
             <div>
               <label>
-                <strong>Description:</strong>
+                <strong>Documento:</strong>
               </label>{" "}
-              {currentTutorial.description}
+              {currentTutorial.documento}
             </div>
             <div>
               <label>
                 <strong>Status:</strong>
               </label>{" "}
-              {currentTutorial.published ? "Published" : "Pending"}
+              {currentTutorial.isActive ? "Active" : "Baja"}
             </div>
 
             <Link
-              to={"/tutorials/" + currentTutorial.id}
+              to={"/people/" + currentTutorial.id}
               className="badge badge-warning"
             >
               Edit
