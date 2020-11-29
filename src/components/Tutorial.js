@@ -4,9 +4,14 @@ import TutorialDataService from "../services/TutorialService";
 const Tutorial = props => {
   const initialTutorialState = {
     id: null,
-    title: "",
-    description: "",
-    published: false
+    orden: 0,
+    isActive: false,
+    documento: "",
+    nombre: "",
+    genero: "",
+    email: "",
+    phone: "",
+    direccion: ""
   };
   const [currentTutorial, setCurrentTutorial] = useState(initialTutorialState);
   const [message, setMessage] = useState("");
@@ -34,9 +39,14 @@ const Tutorial = props => {
   const updatePublished = status => {
     var data = {
       id: currentTutorial.id,
-      title: currentTutorial.title,
-      description: currentTutorial.description,
-      published: status
+      orden: currentTutorial.orden,
+      isActive: currentTutorial.isActive,
+      documento: currentTutorial.documento,
+      nombre: currentTutorial.nombre,
+      genero: currentTutorial.genero,
+      email: currentTutorial.email,
+      phone: currentTutorial.phone,
+      direccion: currentTutorial.direccion
     };
 
     TutorialDataService.update(currentTutorial.id, data)
@@ -64,7 +74,7 @@ const Tutorial = props => {
     TutorialDataService.remove(currentTutorial.id)
       .then(response => {
         console.log(response.data);
-        props.history.push("/tutorials");
+        props.history.push("/people");
       })
       .catch(e => {
         console.log(e);
@@ -78,24 +88,24 @@ const Tutorial = props => {
           <h4>Tutorial</h4>
           <form>
             <div className="form-group">
-              <label htmlFor="title">Title</label>
+              <label htmlFor="nombre">Nombre</label>
               <input
                 type="text"
                 className="form-control"
-                id="title"
-                name="title"
-                value={currentTutorial.title}
+                id="nombre"
+                name="nombre"
+                value={currentTutorial.nombre}
                 onChange={handleInputChange}
               />
             </div>
             <div className="form-group">
-              <label htmlFor="description">Description</label>
+              <label htmlFor="documento">Documento</label>
               <input
                 type="text"
                 className="form-control"
-                id="description"
-                name="description"
-                value={currentTutorial.description}
+                id="documento"
+                name="documento"
+                value={currentTutorial.documento}
                 onChange={handleInputChange}
               />
             </div>
@@ -104,11 +114,11 @@ const Tutorial = props => {
               <label>
                 <strong>Status:</strong>
               </label>
-              {currentTutorial.published ? "Published" : "Pending"}
+              {currentTutorial.isActive ? "Activo" : "Baja"}
             </div>
           </form>
 
-          {currentTutorial.published ? (
+          {currentTutorial.isActive ? (
             <button
               className="badge badge-primary mr-2"
               onClick={() => updatePublished(false)}
@@ -116,13 +126,13 @@ const Tutorial = props => {
               UnPublish
             </button>
           ) : (
-            <button
-              className="badge badge-primary mr-2"
-              onClick={() => updatePublished(true)}
-            >
-              Publish
-            </button>
-          )}
+              <button
+                className="badge badge-primary mr-2"
+                onClick={() => updatePublished(true)}
+              >
+                Publish
+              </button>
+            )}
 
           <button className="badge badge-danger mr-2" onClick={deleteTutorial}>
             Delete
@@ -138,11 +148,11 @@ const Tutorial = props => {
           <p>{message}</p>
         </div>
       ) : (
-        <div>
-          <br />
-          <p>Please click on a Tutorial...</p>
-        </div>
-      )}
+          <div>
+            <br />
+            <p>Please click on a Tutorial...</p>
+          </div>
+        )}
     </div>
   );
 };
